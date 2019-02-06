@@ -40,9 +40,7 @@ const RootQuery = new GraphQLObjectType({
                 id: { type: GraphQLString }
             },
             // info parameter contains the Abstract Syntax Tree bits associated to the request
-            resolve(parent, args, info) {
-                return bookDb.getBook(args.id)
-            }
+            resolve: (parent, args, info) => bookDb.getBook(args.id)
         },
         name: { type: GraphQLString },
         genre: { type: GraphQLString }
