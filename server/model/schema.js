@@ -4,13 +4,14 @@
  */
 
 const graphql = require('graphql')
-const bookDb = require('./dataAccess/book-db-mock')
+const db = require('./dataAccess/db-mock')
 
 const { 
     GraphQLObjectType, 
     GraphQLString, 
     GraphQLSchema,
-    GraphQLID 
+    GraphQLID,
+    GraphQLInt,
 } = graphql
 
 // Build the type schema
@@ -36,7 +37,16 @@ const BookType = new GraphQLObjectType({
         genre: { type: GraphQLString }
     }
     */
-});
+})
+
+const AuthorType = new GraphQLObjectType({
+    name: 'Author',
+    fields: {
+        id: idType,
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt }
+    }
+})
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -48,10 +58,15 @@ const RootQuery = new GraphQLObjectType({
                 id: idType
             },
             // info parameter contains the Abstract Syntax Tree bits associated to the request
-            resolve: (parent, args, info) => bookDb.getBook(args.id)
+            resolve: (parent, args, info) => db.getBook(args.id)
+        },
+        author: {
+            type: AuthorType,
+            args: { id: idType },
+            resolve: (parent, args, info) => db.getAuthor(args.id)
         }
     })
-});
+})
 
 module.exports = new GraphQLSchema({
     query: RootQuery

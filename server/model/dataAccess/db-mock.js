@@ -21,6 +21,24 @@ const books = [
     }
 ]
 
+const authors = [
+    {
+        id: '1',
+        name: 'Mister Promise',
+        age: 13
+    },
+    {
+        id: '2',
+        name: 'Sir Loop',
+        age: 18
+    },
+    {
+        id: '3',
+        name: 'Yieldan Torr',
+        age: 29        
+    }
+]
+
 module.exports = {
     /**
      * Gets a book with the given id
@@ -29,5 +47,14 @@ module.exports = {
      */
     getBook(id) {
         return books.find(b => b.id === id)
+    },
+
+    /**
+     * Gets a author with the given id
+     * @param {string} id - The author's identifier.
+     * @returns {Author}
+     */
+    getAuthor(id) {
+        return authors.find(a => a.id === id)
     }
 }
