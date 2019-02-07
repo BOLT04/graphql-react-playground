@@ -71,12 +71,15 @@ module.exports = {
     },
 
     /**
-     * Get all books from the autror with the given id
-     * @param {string} authorId - The author's identifier.
+     * Get all books or only the books from the author with the given id
+     * according to whether or not there is a supplied authorId.
+     * @param {string} authorId - The author's identifier. Optional
      * @returns {Book[]}
      */
     getBooks(authorId) {
-        return books.filter(b => b.authorId === authorId)
+        return !authorId
+            ? books
+            : books.filter(b => b.authorId === authorId)
     },
 
     /**
