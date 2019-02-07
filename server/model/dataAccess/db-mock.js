@@ -7,17 +7,38 @@ const books = [
     {
         id: '1',
         name: 'Book 1',
-        genre: 'Sci-fi'
+        genre: 'Sci-fi',
+        authorId: '1'
     },
     {
         id: '2',
         name: 'Book 2',
-        genre: 'Fantasy'
+        genre: 'Fantasy',
+        authorId: '2'
     },
     {
         id: '3',
         name: 'Book 3',
-        genre: 'Horror'
+        genre: 'Horror',
+        authorId: '3'
+    },
+    {
+        id: '4',
+        name: 'Book 4',
+        genre: 'Horror',
+        authorId: '3'
+    },
+    {
+        id: '5',
+        name: 'The real Harry Potter',
+        genre: 'Magic',
+        authorId: '3'
+    },
+    {
+        id: '6',
+        name: 'Fast and Furious',
+        genre: 'Racing',
+        authorId: '1'
     }
 ]
 
@@ -47,6 +68,15 @@ module.exports = {
      */
     getBook(id) {
         return books.find(b => b.id === id)
+    },
+
+    /**
+     * Get all books from the autror with the given id
+     * @param {string} authorId - The author's identifier.
+     * @returns {Book[]}
+     */
+    getBooks(authorId) {
+        return books.filter(b => b.authorId === authorId)
     },
 
     /**
