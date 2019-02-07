@@ -6,18 +6,26 @@
 const graphql = require('graphql')
 const bookDb = require('./dataAccess/book-db-mock')
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql
+const { 
+    GraphQLObjectType, 
+    GraphQLString, 
+    GraphQLSchema,
+    GraphQLID 
+} = graphql
 
 // Build the type schema
 
-/* When two types need to refer to each other, or a type needs to refer to
+const idType = { type: GraphQLID }
+
+/* LEARNING NOTES
+   When two types need to refer to each other, or a type needs to refer to
    itself in a field, we can use a function expression (or arrow function) 
    to supply the fields lazily.
 */
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
-        id: { type: GraphQLString },
+        id: idType,
         name: { type: GraphQLString },
         genre: { type: GraphQLString }
     })
@@ -37,13 +45,11 @@ const RootQuery = new GraphQLObjectType({
         book: { 
             type: BookType,
             args: { // Define the arguments that the client making the query needs to input
-                id: { type: GraphQLString }
+                id: idType
             },
             // info parameter contains the Abstract Syntax Tree bits associated to the request
             resolve: (parent, args, info) => bookDb.getBook(args.id)
-        },
-        name: { type: GraphQLString },
-        genre: { type: GraphQLString }
+        }
     })
 });
 
