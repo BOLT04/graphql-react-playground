@@ -2,44 +2,19 @@
  * A module that keeps the data in memory. Mocks the fetching operation that would be done
  * when using a database.
  */
-
+function Book(id, title, genre, authorId) {
+    this.id = id
+    this.title = title
+    this.genre = genre
+    this.authorId = authorId
+}
 const books = [
-    {
-        id: '1',
-        name: 'Book 1',
-        genre: 'Sci-fi',
-        authorId: '1'
-    },
-    {
-        id: '2',
-        name: 'Book 2',
-        genre: 'Fantasy',
-        authorId: '2'
-    },
-    {
-        id: '3',
-        name: 'Book 3',
-        genre: 'Horror',
-        authorId: '3'
-    },
-    {
-        id: '4',
-        name: 'Book 4',
-        genre: 'Horror',
-        authorId: '3'
-    },
-    {
-        id: '5',
-        name: 'The real Harry Potter',
-        genre: 'Magic',
-        authorId: '3'
-    },
-    {
-        id: '6',
-        name: 'Fast and Furious',
-        genre: 'Racing',
-        authorId: '1'
-    }
+    new Book(1, 'Book 1', 'Sci-fi', 1),
+    new Book(2, 'Book 2', 'Fantasy', 2),
+    new Book(3, 'Book 3', 'Horror', 3),
+    new Book(4, 'Book 4', 'Horror', 3),
+    new Book(5, 'The real Harry Potter', 'Magic', 3),
+    new Book(6, 'Fast and Furious', 'Racing', 1)
 ]
 
 const authors = [
@@ -74,7 +49,7 @@ module.exports = {
      * Get all books or only the books from the author with the given id
      * according to whether or not there is a supplied authorId.
      * @param {string} authorId - The author's identifier. Optional
-     * @returns {Book[]}
+     * @returns {[Book]}
      */
     getBooks(authorId) {
         return !authorId
@@ -89,5 +64,11 @@ module.exports = {
      */
     getAuthor(id) {
         return authors.find(a => a.id === id)
-    }
+    },
+
+    /**
+     * Get all authors
+     * @returns {[Author]}
+     */
+    getAuthors: () => authors
 }
