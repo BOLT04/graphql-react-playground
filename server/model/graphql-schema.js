@@ -4,7 +4,8 @@
  */
 
 const graphql = require('graphql')
-const db = require('./dataAccess/db-mock')
+//const db = require('./dataAccess/db-mock')
+const db = require('./dataAccess/mongo-db')
 
 const { 
     GraphQLObjectType, 
@@ -34,14 +35,14 @@ var num;
 num = 6;
 */
 
-const BookType = new GraphQLObjectType({
+const bookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
         id: idType,
         name: { type: GraphQLString },
         genre: { type: GraphQLString },
         author: {
-            type: AuthorType,
+            type: authorType,
             /* LEARNING NOTES: 
                In this case this author query will be nested inside a book query, meaning that
                parent parameter will reference the book object => we can use the prop. authorID
@@ -63,25 +64,25 @@ const BookType = new GraphQLObjectType({
     */
 })
 
-const AuthorType = new GraphQLObjectType({
+const authorType = new GraphQLObjectType({
     name: 'Author',
     fields: {
         id: idType,
         name: { type: GraphQLString },
         age: { type: GraphQLInt },
         books: { 
-            type: new GraphQLList(BookType),
+            type: new GraphQLList(bookType),
             resolve: (parent, args, info) => db.getBooks(parent.id)
         },
     }
 })
 
-const RootQuery = new GraphQLObjectType({
+const query = new GraphQLObjectType({
     name: 'RootQuery',
-    fields: () => ({
+    fields: {
         // Example Query: book(id: '1') { name }
         book: { 
-            type: BookType,
+            type: bookType,
             args: { // Define the arguments that the client making the query needs to input
                 id: idType
             },
@@ -89,21 +90,33 @@ const RootQuery = new GraphQLObjectType({
             resolve: (parent, args, info) => db.getBook(args.id)
         },
         books: { 
-            type: new GraphQLList(BookType),
+            type: new GraphQLList(bookType),
             resolve: db.getBooks
         },
         author: {
-            type: AuthorType,
+            type: authorType,
             args: { id: idType },
             resolve: (parent, args, info) => db.getAuthor(args.id)
         },
         authors: { 
-            type: new GraphQLList(AuthorType),
+            type: new GraphQLList(authorType),
             resolve: db.getAuthors
         }
-    })
+    }
 })
 
-module.exports = new GraphQLSchema({
-    query: RootQuery
+const mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addAuthor: {
+            type: authorType,
+            args: { 
+                name: { type: GraphQLString },
+                age: { type: GraphQLInt }
+            },
+            resolve: (parent, args, info) => db.addAuthor(args.name, args.age)
+        }
+    }
 })
+
+module.exports = new GraphQLSchema({ query, mutation })

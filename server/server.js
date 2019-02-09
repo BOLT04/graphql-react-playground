@@ -1,6 +1,7 @@
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
-const schema = require('./model/schema')
+const schema = require('./model/graphql-schema')
+require('./model/dataAccess/mongo-db').connect() // TODO: maybe this shouldn't be here...
 
 // CONSTANTS
 const DEFAULT_PORT = 3000

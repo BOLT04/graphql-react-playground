@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 // LEARNING NOTES: A Schema in MongoDb is the equivalent of a collection and it 
