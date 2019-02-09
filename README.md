@@ -17,6 +17,13 @@ we have to:
  }
  ```
  
+  ## GraphQL cool features
+   * Typed: Helps checking if the query is valid. We can have various types including Enums
+   * Alias field names (used when querying)
+   * Fragment: Removes redundancy in queries
+   * Introspection
+   * Resolvers: One schema is composed of essentially resolver functions that handle the fetching process of data, meaning it can come from any datasource (database, cache, services, etc), which is very useful to create a facade.
+ 
  
  I also interacted with GraphiQL, using it to test out the code that I was doing and explore what is possible as far as queries go. This tool also allows me to easily check the docs on the GraphQL server that is being used. This way I have quick access to all the information I need.
 
