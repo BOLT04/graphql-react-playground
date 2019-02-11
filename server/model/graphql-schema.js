@@ -39,7 +39,7 @@ const bookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
         id: idType,
-        name: { type: GraphQLString },
+        title: { type: GraphQLString },
         genre: { type: GraphQLString },
         author: {
             type: authorType,
@@ -58,7 +58,7 @@ const bookType = new GraphQLObjectType({
     /*
     fields: {
         id: { type: GraphQLString },
-        name: { type: GraphQLString },
+        title: { type: GraphQLString },
         genre: { type: GraphQLString }
     }
     */
@@ -115,6 +115,15 @@ const mutation = new GraphQLObjectType({
                 age: { type: GraphQLInt }
             },
             resolve: (parent, args, info) => db.addAuthor(args.name, args.age)
+        },
+        addBook: {
+            type: bookType,
+            args: { 
+                title: { type: GraphQLString },
+                genre: { type: GraphQLString },
+                authorId: { type: GraphQLID }
+            },
+            resolve: (parent, args, info) => db.addBook(args.title, args.genre, args.authorId)
         }
     }
 })
